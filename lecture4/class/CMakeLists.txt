@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16.3)
 
-project(Lesson_4)
+project(Lecture_4)
 
 set(CMAKE_CXX_STANDARD 17)
 
