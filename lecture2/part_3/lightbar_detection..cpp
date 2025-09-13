@@ -3,10 +3,17 @@
 #include <vector>
 #include <cmath>
 
-int main()
+int main(int argc, char **argv)
 {
+    if (argc < 2)
+    {
+        std::cerr << "Usage: " << argv[0] << " <input_image>\n";
+        return 1;
+    }
+    std::string inPath = argv[1];
+    std::cout << "Input image path: " << inPath;
     // 读取图片
-    cv::Mat bgr_img = cv::imread("test.jpg");
+    cv::Mat bgr_img = cv::imread(inPath);
     if (bgr_img.empty())
     {
         std::cout << "fail to load image" << std::endl;
@@ -25,7 +32,7 @@ int main()
     std::vector<std::vector<cv::Point>> contours;
     cv::findContours(binary_img, contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_NONE);
     cv::Mat contour_img = bgr_img.clone();
-    cv::drawContours(contour_img, contours, -1, cv::Scalar(0, 255, 0), 2);
+    cv::drawContours(contour_img, contours, -1, cv::Scalar(0, 0, 255), 6);
     cv::imshow("3_contours", contour_img);
     // 参数
     double min_lightbar_ratio_ = 2.0;  // 最小长宽比
@@ -56,16 +63,15 @@ int main()
                 red_sum += pix[2];
                 blue_sum += pix[0];
             }
-            cv::Scalar color = (blue_sum > red_sum) ? cv::Scalar(255, 0, 0) : cv::Scalar(0, 0, 255);
 
             // 绘制旋转矩形
             cv::Point2f vertices[4];
             rect.points(vertices);
             for (int i = 0; i < 4; i++)
             {
-                cv::line(bgr_img, vertices[i], vertices[(i + 1) % 4], color, 7);
+                cv::line(bgr_img, vertices[i], vertices[(i + 1) % 4], cv::Scalar(0, 0, 255), 5);
             }
-            std::cout << "Lightbar color: " << (color == cv::Scalar(255, 0, 0) ? "Blue" : "Red") << std::endl;
+            std::cout << "Lightbar color: " << (blue_sum > red_sum ? "Blue" : "Red") << std::endl;
         }
     }
 
