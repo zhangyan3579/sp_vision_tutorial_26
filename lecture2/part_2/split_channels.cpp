@@ -2,7 +2,7 @@
 int main()
 {
     // 读取图片
-    cv::Mat bgr_img = cv::imread("test.jpg");
+    cv::Mat bgr_img = cv::imread("./img/test_1.jpg");
     if (bgr_img.empty())
     {
         std::cout << "fail to load image" << std::endl;
